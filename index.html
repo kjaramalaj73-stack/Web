@@ -27,18 +27,19 @@
         margin-bottom: 20px;
         border-radius: 5px;
         border: 1px solid #ccc;
+        font-size: 16px;
     }
     button {
         background-color: #4CAF50;
         color: white;
         border: none;
+        cursor: pointer;
     }
     button:hover {
         background-color: #45a049;
     }
     /* Kuti e rezultatit */
     .result-box {
-        background-color: #e0f7fa; /* ngjyrë ndryshe */
         padding: 15px;
         border-radius: 8px;
         text-align: center;
@@ -49,6 +50,12 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        color: white;
+    }
+    .visible {
+        opacity: 1;
     }
 </style>
 </head>
@@ -86,7 +93,7 @@
     <button onclick="convert()">Konverto</button>
 
     <div class="result-box" id="result">
-        <!-- Rezultati do të shfaqet këtu -->
+        <!-- Rezultati shfaqet këtu -->
     </div>
 </div>
 
@@ -101,11 +108,26 @@ function convert() {
 
     if(isNaN(amount) || amount <= 0 || isNaN(rate) || rate <= 0){
         resultBox.innerHTML = "Ju lutem vendosni vlera të vlefshme.";
+        resultBox.style.backgroundColor = "#f44336"; // e kuqe për gabim
+        resultBox.classList.add("visible");
         return;
     }
 
     let converted = amount * rate;
+
+    // Ngjyrat sipas monedhës së destinacionit
+    let colors = {
+        "EUR": "#3f51b5",
+        "USD": "#2196f3",
+        "GBP": "#009688",
+        "CHF": "#ff9800",
+        "JPY": "#9c27b0",
+        "ALL": "#607d8b"
+    };
+
     resultBox.innerHTML = amount + " " + from + " = " + converted.toFixed(2) + " " + to;
+    resultBox.style.backgroundColor = colors[to] || "#333";
+    resultBox.classList.add("visible");
 }
 </script>
 
