@@ -1,70 +1,87 @@
 <!DOCTYPE html>
 <html lang="sq">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konvertues Monedhash</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .card {
-            margin-top: 50px;
-        }
-        .result {
-            margin-top: 20px;
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konvertues Monedhash</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        width: 300px;
+    }
+    input, select, button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    .result {
+        text-align: center;
+        font-weight: bold;
+        font-size: 18px;
+    }
+</style>
 </head>
 <body>
 
 <div class="container">
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <h3 class="card-title text-center mb-4">💱 Konvertues Monedhash</h3>
-            <form method="POST">
-                <div class="mb-3">
-                    <label for="shuma" class="form-label">Shuma:</label>
-                    <input type="number" step="0.01" name="shuma" id="shuma" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label for="monedha" class="form-label">Zgjidh monedhën:</label>
-                    <select name="monedha" id="monedha" class="form-select" required>
-                        <option value="EUR">Euro (EUR)</option>
-                        <option value="USD">Dollar Amerikan (USD)</option>
-                        <option value="GBP">Paund Britanik (GBP)</option>
-                        <option value="CHF">Frangë Zvicerane (CHF)</option>
-                        <option value="JPY">Jen Japonez (JPY)</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="kursi" class="form-label">Kursi i këmbimit (në Lek):</label>
-                    <input type="number" step="0.01" name="kursi" id="kursi" class="form-control" required>
-                </div>
-                <button type="submit" name="submit" class="btn btn-primary w-100">Konverto</button>
-            </form>
+    <h2 style="text-align:center;">💱 Konvertues Monedhash</h2>
+    <label for="amount">Shuma:</label>
+    <input type="number" id="amount" placeholder="Shuma">
 
-            <?php
-            if(isset($_POST['submit'])) {
-                $shuma = $_POST['shuma'];
-                $kursi = $_POST['kursi'];
-                $monedha = $_POST['monedha'];
+    <label for="currency">Monedha:</label>
+    <select id="currency">
+        <option value="EUR">Euro (EUR)</option>
+        <option value="USD">Dollar Amerikan (USD)</option>
+        <option value="GBP">Paund Britanik (GBP)</option>
+        <option value="CHF">Frangë Zvicerane (CHF)</option>
+        <option value="JPY">Jen Japonez (JPY)</option>
+    </select>
 
-                if(is_numeric($shuma) && $shuma > 0 && is_numeric($kursi) && $kursi > 0) {
-                    $lek = $shuma * $kursi;
-                    echo "<div class='result alert alert-success text-center'>{$shuma} {$monedha} është e barabartë me " . number_format($lek, 2) . " Lekë (me kursin {$kursi} për {$monedha}).</div>";
-                } else {
-                    echo "<div class='result alert alert-danger text-center'>Ju lutem vendosni vlera pozitive dhe të vlefshme për shumën dhe kursin.</div>";
-                }
-            }
-            ?>
-        </div>
-    </div>
+    <label for="rate">Kursi në Lek:</label>
+    <input type="number" id="rate" placeholder="Kursi i këmbimit">
+
+    <button onclick="convert()">Konverto</button>
+
+    <div class="result" id="result"></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function convert() {
+    let amount = parseFloat(document.getElementById('amount').value);
+    let rate = parseFloat(document.getElementById('rate').value);
+    let currency = document.getElementById('currency').value;
+
+    if(isNaN(amount) || amount <= 0 || isNaN(rate) || rate <= 0){
+        document.getElementById('result').innerHTML = "Ju lutem vendosni vlera të vlefshme.";
+        return;
+    }
+
+    let lek = amount * rate;
+    document.getElementById('result').innerHTML = amount + " " + currency + " është " + lek.toFixed(2) + " Lekë.";
+}
+</script>
+
 </body>
 </html>
