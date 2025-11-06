@@ -18,7 +18,7 @@
         padding: 30px;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        width: 300px;
+        width: 320px;
     }
     input, select, button {
         width: 100%;
@@ -47,19 +47,31 @@
 
 <div class="container">
     <h2 style="text-align:center;">💱 Konvertues Monedhash</h2>
+
     <label for="amount">Shuma:</label>
     <input type="number" id="amount" placeholder="Shuma">
 
-    <label for="currency">Monedha:</label>
-    <select id="currency">
+    <label for="currency_from">Monedha ekzistuese:</label>
+    <select id="currency_from">
         <option value="EUR">Euro (EUR)</option>
         <option value="USD">Dollar Amerikan (USD)</option>
         <option value="GBP">Paund Britanik (GBP)</option>
         <option value="CHF">Frangë Zvicerane (CHF)</option>
         <option value="JPY">Jen Japonez (JPY)</option>
+        <option value="ALL">Lek Shqiptar (ALL)</option>
     </select>
 
-    <label for="rate">Kursi në Lek:</label>
+    <label for="currency_to">Monedha e dëshiruar:</label>
+    <select id="currency_to">
+        <option value="EUR">Euro (EUR)</option>
+        <option value="USD">Dollar Amerikan (USD)</option>
+        <option value="GBP">Paund Britanik (GBP)</option>
+        <option value="CHF">Frangë Zvicerane (CHF)</option>
+        <option value="JPY">Jen Japonez (JPY)</option>
+        <option value="ALL">Lek Shqiptar (ALL)</option>
+    </select>
+
+    <label for="rate">Kursi i këmbimit:</label>
     <input type="number" id="rate" placeholder="Kursi i këmbimit">
 
     <button onclick="convert()">Konverto</button>
@@ -71,15 +83,16 @@
 function convert() {
     let amount = parseFloat(document.getElementById('amount').value);
     let rate = parseFloat(document.getElementById('rate').value);
-    let currency = document.getElementById('currency').value;
+    let from = document.getElementById('currency_from').value;
+    let to = document.getElementById('currency_to').value;
 
     if(isNaN(amount) || amount <= 0 || isNaN(rate) || rate <= 0){
         document.getElementById('result').innerHTML = "Ju lutem vendosni vlera të vlefshme.";
         return;
     }
 
-    let lek = amount * rate;
-    document.getElementById('result').innerHTML = amount + " " + currency + " është " + lek.toFixed(2) + " Lekë.";
+    let converted = amount * rate;
+    document.getElementById('result').innerHTML = amount + " " + from + " = " + converted.toFixed(2) + " " + to;
 }
 </script>
 
