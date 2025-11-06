@@ -36,10 +36,19 @@
     button:hover {
         background-color: #45a049;
     }
-    .result {
+    /* Kuti e rezultatit */
+    .result-box {
+        background-color: #e0f7fa; /* ngjyrë ndryshe */
+        padding: 15px;
+        border-radius: 8px;
         text-align: center;
         font-weight: bold;
         font-size: 18px;
+        margin-top: 10px;
+        min-height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>
 </head>
@@ -76,7 +85,9 @@
 
     <button onclick="convert()">Konverto</button>
 
-    <div class="result" id="result"></div>
+    <div class="result-box" id="result">
+        <!-- Rezultati do të shfaqet këtu -->
+    </div>
 </div>
 
 <script>
@@ -86,13 +97,15 @@ function convert() {
     let from = document.getElementById('currency_from').value;
     let to = document.getElementById('currency_to').value;
 
+    let resultBox = document.getElementById('result');
+
     if(isNaN(amount) || amount <= 0 || isNaN(rate) || rate <= 0){
-        document.getElementById('result').innerHTML = "Ju lutem vendosni vlera të vlefshme.";
+        resultBox.innerHTML = "Ju lutem vendosni vlera të vlefshme.";
         return;
     }
 
     let converted = amount * rate;
-    document.getElementById('result').innerHTML = amount + " " + from + " = " + converted.toFixed(2) + " " + to;
+    resultBox.innerHTML = amount + " " + from + " = " + converted.toFixed(2) + " " + to;
 }
 </script>
 
